@@ -6,8 +6,8 @@ create table tauthor
   last_name  varchar2(255)
 );
 
-drop table if exists tganre;
-create table tganre
+drop table if exists tgenre;
+create table tgenre
 (
   id          long primary key,
   name        varchar2(255),
@@ -32,13 +32,13 @@ create table tbook_author
   FOREIGN KEY (book_id) references tbook (isbn)
 );
 
-create table tbook_ganre
+create table tbook_genre
 (
   book_id  varchar2(10),
-  ganre_id long,
-  primary key (book_id, ganre_id),
+  genre_id long,
+  primary key (book_id, genre_id),
   foreign key (book_id) references tbook (isbn),
-  foreign key (ganre_id) references tganre (id)
+  foreign key (genre_id) references tgenre (id)
 )
 
 

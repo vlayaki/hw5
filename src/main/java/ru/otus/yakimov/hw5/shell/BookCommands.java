@@ -6,12 +6,10 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import ru.otus.yakimov.hw5.domain.Author;
 import ru.otus.yakimov.hw5.domain.Book;
-import ru.otus.yakimov.hw5.domain.BookAuthor;
-import ru.otus.yakimov.hw5.domain.Ganre;
+import ru.otus.yakimov.hw5.domain.Genre;
 import ru.otus.yakimov.hw5.service.BookService;
 import ru.otus.yakimov.hw5.service.UserService;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,11 +33,11 @@ public class BookCommands {
                 .stream()
                 .map(id -> new Author(id, null, null))
                 .collect(Collectors.toSet());
-        Set<Ganre> ganres = userService.getSetOfIdsFromUser("Input ganre id or press Enter to continue.")
+        Set<Genre> genres = userService.getSetOfIdsFromUser("Input genre id or press Enter to continue.")
                 .stream()
-                .map(id -> new Ganre(id, null, null))
+                .map(id -> new Genre(id, null, null))
                 .collect(Collectors.toSet());
-        Book book = new Book(isbn, title, desc, authors, ganres);
+        Book book = new Book(isbn, title, desc, authors, genres);
         bookService.add(book);
     }
 

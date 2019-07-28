@@ -7,7 +7,7 @@ insert into tauthor(id, first_name, last_name)
 values (4, 'Bert', 'Bates');
 
 -- genre
-insert into tganre(id, name, description)
+insert into tgenre(id, name, description)
 values (1, 'educational', 'desc');
 
 -- book
@@ -20,8 +20,8 @@ values ('0596009208', 'Head First Java',
 insert into tbook_author(book_id, author_id) values('0596009208', 3);
 insert into tbook_author(book_id, author_id) values('0596009208', 4);
 
--- tbook_ganre
-insert into tbook_ganre (book_id, ganre_id)
+-- tbook_genre
+insert into tbook_genre (book_id, genre_id)
 values ('0596009208', 1);
 
 

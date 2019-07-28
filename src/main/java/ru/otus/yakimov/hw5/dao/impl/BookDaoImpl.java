@@ -17,11 +17,12 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book findById(String id) {
         final String select =
-                "select b.isbn, b.title, b.description book_desc, a.id author_id, a.first_name, a.last_name, g.id ganre_id, g.name, g.description ganre_desc from tbook b " +
+                "select b.isbn, b.title, b.description book_desc, a.id author_id, a.first_name, a.last_name, g.id genre_id, g.name, g.description genre_desc " +
+                        "from tbook b " +
                         "left join tbook_author ba on b.isbn = ba.book_id " +
                         "left join tauthor a on a.id = ba.author_id " +
-                        "left join tbook_ganre bg on b.isbn = bg.book_id " +
-                        "left join tganre g on g.id = bg.ganre_id " +
+                        "left join tbook_genre bg on b.isbn = bg.book_id " +
+                        "left join tgenre g on g.id = bg.genre_id " +
                         "where b.isbn = :id";
         Map<String, String> params = Collections.singletonMap("id", id);
         List<Book> books = namedParameterJdbcOperations.query(select, params, new BookExtractor());
@@ -35,11 +36,11 @@ public class BookDaoImpl implements BookDao {
     @Override
     public List<Book> findAll() {
         final String select =
-                "select b.isbn, b.title, b.description book_desc, a.id author_id, a.first_name, a.last_name, g.id ganre_id, g.name, g.description ganre_desc from tbook b " +
+                "select b.isbn, b.title, b.description book_desc, a.id author_id, a.first_name, a.last_name, g.id genre_id, g.name, g.description genre_desc from tbook b " +
                         "left join tbook_author ba on b.isbn = ba.book_id " +
                         "left join tauthor a on a.id = ba.author_id " +
-                        "left join tbook_ganre bg on b.isbn = bg.book_id " +
-                        "left join tganre g on g.id = bg.ganre_id ";
+                        "left join tbook_genre bg on b.isbn = bg.book_id " +
+                        "left join tgenre g on g.id = bg.genre_id ";
         return namedParameterJdbcOperations.query(select, new BookExtractor());
     }
 

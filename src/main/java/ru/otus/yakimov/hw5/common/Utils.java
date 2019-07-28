@@ -2,7 +2,7 @@ package ru.otus.yakimov.hw5.common;
 
 import ru.otus.yakimov.hw5.domain.Book;
 import ru.otus.yakimov.hw5.domain.BookAuthor;
-import ru.otus.yakimov.hw5.domain.BookGanre;
+import ru.otus.yakimov.hw5.domain.BookGenre;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,10 +15,10 @@ public class Utils {
                 .collect(Collectors.toList());
     }
 
-    public static List<BookGanre> fromBookToBookGanre(Book book){
-        return book.getGanres()
+    public static List<BookGenre> fromBookToBookGenre(Book book){
+        return book.getGenres()
                 .stream()
-                .map(ganre -> new BookGanre(book.getIsbn(), ganre.getId()))
+                .map(genre -> new BookGenre(book.getIsbn(), genre.getId()))
                 .collect(Collectors.toList());
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.otus.yakimov.hw5.domain.Ganre;
+import ru.otus.yakimov.hw5.domain.Genre;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -20,28 +20,28 @@ import static org.hamcrest.core.IsNull.notNullValue;
         InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
         ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"
 })
-public class BookGanreDaoTest {
+public class BookGenreDaoTest {
 
     @Autowired
-    private GanreDao ganreDao;
+    private GenreDao genreDao;
 
     @Test
-    public void shouldReadGanreFromDb(){
+    public void shouldReadGenreFromDb(){
         long id = 1;
         String name = "educational";
         String description = "desc";
-        Ganre expected = new Ganre(id, name, description);
-        Ganre actual = ganreDao.findById(id);
+        Genre expected = new Genre(id, name, description);
+        Genre actual = genreDao.findById(id);
         assertThat(actual, is(notNullValue()));
         assertThat(actual, is(equalTo(expected)));
     }
 
     @Test
     @Rollback
-    public void shouldPersistGanreToDb(){
-        Ganre expected = new Ganre(2, "testGanre", "desc");
-        ganreDao.add(expected);
-        Ganre actual = ganreDao.findById(expected.getId());
+    public void shouldPersistGenreToDb(){
+        Genre expected = new Genre(2, "testGenre", "desc");
+        genreDao.add(expected);
+        Genre actual = genreDao.findById(expected.getId());
         assertThat(actual, is(notNullValue()));
         assertThat(actual, is(equalTo(expected)));
     }

@@ -11,7 +11,7 @@ public class Book {
     private final String title;
     private final String description;
     private final Set<Author> authors;
-    private final Set<Ganre> ganres;
+    private final Set<Genre> genres;
 
 
     @Override
@@ -21,7 +21,7 @@ public class Book {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", authors=" + authors +
-                ", ganres=" + ganres +
+                ", genres=" + genres +
                 '}';
     }
 
@@ -34,11 +34,11 @@ public class Book {
                 title.equals(book.title) &&
                 description.equals(book.description) &&
                 authors.equals(book.authors) &&
-                ganres.equals(book.ganres);
+                genres.equals(book.genres);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(isbn, title, description, authors, ganres);
+        return Objects.hash(isbn, title, description, authors, genres);
     }
 }

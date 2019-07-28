@@ -10,7 +10,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.otus.yakimov.hw5.domain.Author;
 import ru.otus.yakimov.hw5.domain.Book;
-import ru.otus.yakimov.hw5.domain.Ganre;
+import ru.otus.yakimov.hw5.domain.Genre;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -37,9 +37,9 @@ public class BookDaoTest {
         Set<Author> authors = new HashSet<>();
         authors.add(new Author(3, "Sierra", "Kathy"));
         authors.add(new Author(4, "Bates", "Bert"));
-        Set<Ganre> ganres = new HashSet<>();
-        ganres.add(new Ganre(1, "educational", "desc"));
-        Book expected = new Book(isbn, title, description, authors, ganres);
+        Set<Genre> genres = new HashSet<>();
+        genres.add(new Genre(1, "educational", "desc"));
+        Book expected = new Book(isbn, title, description, authors, genres);
         Book actual = bookDao.findById(isbn);
         assertThat(actual, notNullValue());
         assertThat(actual, is(equalTo(expected)));

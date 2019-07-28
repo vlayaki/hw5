@@ -34,7 +34,7 @@ public class BookServiceTest {
     private BookAuthorService bookAuthorService;
 
     @Autowired
-    private BookGanreService bookGanreService;
+    private BookGenreService bookGenreService;
 
     @Test
     @Rollback
@@ -45,9 +45,9 @@ public class BookServiceTest {
         Set<Author> authors = new HashSet<>();
         authors.add(new Author(3, "Sierra", "Kathy"));
         authors.add(new Author(4, "Bates", "Bert"));
-        Set<Ganre> ganres = new HashSet<>();
-        ganres.add(new Ganre(1, "educational", "desc"));
-        Book testBook = new Book(isbn, title, description, authors, ganres);
+        Set<Genre> genres = new HashSet<>();
+        genres.add(new Genre(1, "educational", "desc"));
+        Book testBook = new Book(isbn, title, description, authors, genres);
         bookService.add(testBook);
         Book bookFromDb = bookService.findById(testBook.getIsbn());
         assertThat(bookFromDb, is(notNullValue()));
@@ -61,8 +61,8 @@ public class BookServiceTest {
         bookService.delete(bookId);
         List<BookAuthor> bookAuthorList = bookAuthorService.findByBookId(bookId);
         assertThat(bookAuthorList, hasSize(0));
-        List<BookGanre> bookGanreList = bookGanreService.findByBookId(bookId);
-        assertThat(bookGanreList, hasSize(0));
+        List<BookGenre> bookGenreList = bookGenreService.findByBookId(bookId);
+        assertThat(bookGenreList, hasSize(0));
         bookService.findById(bookId);
     }
 }

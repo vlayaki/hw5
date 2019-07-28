@@ -5,14 +5,14 @@ import lombok.Data;
 import java.util.Objects;
 
 @Data
-public class Ganre {
+public class Genre {
     private final long id;
     private final String name;
     private final String description;
 
     @Override
     public String toString() {
-        return "Ganre{" +
+        return "genre{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
@@ -23,10 +23,10 @@ public class Ganre {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Ganre ganre = (Ganre) o;
-        return id == ganre.id &&
-                name.equals(ganre.name) &&
-                description.equals(ganre.description);
+        Genre genre = (Genre) o;
+        return id == genre.id &&
+                name.equals(genre.name) &&
+                description.equals(genre.description);
     }
 
     @Override
