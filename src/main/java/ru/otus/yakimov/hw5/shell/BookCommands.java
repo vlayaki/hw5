@@ -41,9 +41,4 @@ public class BookCommands {
         bookService.add(book);
     }
 
-    @ShellMethod(value="Deletes book", key="delete_book")
-    public void delete_book(String isbn){
-        bookService.delete(isbn);
-    }
-
 }

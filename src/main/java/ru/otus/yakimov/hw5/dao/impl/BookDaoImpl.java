@@ -2,10 +2,14 @@ package ru.otus.yakimov.hw5.dao.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Repository;
 import ru.otus.yakimov.hw5.dao.BookDao;
 import ru.otus.yakimov.hw5.dao.extractors.BookExtractor;
+import ru.otus.yakimov.hw5.domain.Author;
 import ru.otus.yakimov.hw5.domain.Book;
+import ru.otus.yakimov.hw5.domain.Genre;
 
 import java.util.*;
 
@@ -46,6 +50,13 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public void add(Book book) {
+        addBook(book);
+        addBookAuthors(book);
+        addBookGenres(book);
+
+    }
+
+    private void addBook(Book book) {
         final String sql = "insert into tbook(isbn, title, description) values(:isbn, :title, :description)";
         Map<String, Object> params = new HashMap<>();
         params.put("isbn", book.getIsbn());
@@ -54,10 +65,31 @@ public class BookDaoImpl implements BookDao {
         namedParameterJdbcOperations.update(sql, params);
     }
 
-    @Override
-    public void delete(String id) {
-        final String sql = "delete from tbook where isbn = :id";
-        Map<String, String> params = Collections.singletonMap("id", id);
-        namedParameterJdbcOperations.update(sql, params);
+    private void addBookGenres(Book book) {
+        final String sql = "insert into tbook_genre(book_id, genre_id) values(:bookId, :genreId)";
+        final List<Map<String, Object>> params = new ArrayList<>();
+        Set<Genre> genres = book.getGenres();
+        genres.forEach(g -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("bookId", book.getIsbn());
+            map.put("genreId", g.getId());
+            params.add(map);
+        });
+        SqlParameterSource[] parameterSources = SqlParameterSourceUtils.createBatch(params);
+        namedParameterJdbcOperations.batchUpdate(sql, parameterSources);
+    }
+
+    private void addBookAuthors(Book book) {
+        final String sql = "insert into tbook_author(book_id, author_id) values(:bookId, :authorId)";
+        final List<Map<String, Object>> params = new ArrayList<>();
+        Set<Author> authors = book.getAuthors();
+        authors.forEach(a -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("bookId", book.getIsbn());
+            map.put("authorId", a.getId());
+            params.add(map);
+        });
+        SqlParameterSource[] parameterSources = SqlParameterSourceUtils.createBatch(params);
+        namedParameterJdbcOperations.batchUpdate(sql, parameterSources);
     }
 }

@@ -53,12 +53,4 @@ public class BookDaoTest {
         assertThat(bookFromDb, is(notNullValue()));
         assertThat(bookFromDb, is(equalTo(book)));
     }
-
-    @Test(expected = RuntimeException.class)
-    @Rollback
-    public void shouldDeleteBookFromDb() {
-        final String isbn = "0596009208";
-        bookDao.delete(isbn);
-        Book book = bookDao.findById(isbn);
-    }
 }

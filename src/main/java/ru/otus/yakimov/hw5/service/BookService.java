@@ -7,5 +7,4 @@ public interface BookService {
 
     Book findById(String isbn);
 
-    void delete(String isbn);
 }

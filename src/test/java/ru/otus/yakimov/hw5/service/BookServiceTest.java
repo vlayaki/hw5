@@ -8,17 +8,17 @@ import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.otus.yakimov.hw5.domain.*;
+import ru.otus.yakimov.hw5.domain.Author;
+import ru.otus.yakimov.hw5.domain.Book;
+import ru.otus.yakimov.hw5.domain.Genre;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(properties = {
@@ -29,12 +29,6 @@ public class BookServiceTest {
 
     @Autowired
     private BookService bookService;
-
-    @Autowired
-    private BookAuthorService bookAuthorService;
-
-    @Autowired
-    private BookGenreService bookGenreService;
 
     @Test
     @Rollback
@@ -52,17 +46,5 @@ public class BookServiceTest {
         Book bookFromDb = bookService.findById(testBook.getIsbn());
         assertThat(bookFromDb, is(notNullValue()));
         assertThat(bookFromDb, is(equalTo(testBook)));
-    }
-
-    @Test(expected = RuntimeException.class)
-    @Rollback
-    public void shouldDeleteBookFromDb(){
-        final String bookId = "0596009208";
-        bookService.delete(bookId);
-        List<BookAuthor> bookAuthorList = bookAuthorService.findByBookId(bookId);
-        assertThat(bookAuthorList, hasSize(0));
-        List<BookGenre> bookGenreList = bookGenreService.findByBookId(bookId);
-        assertThat(bookGenreList, hasSize(0));
-        bookService.findById(bookId);
     }
 }

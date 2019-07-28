@@ -20,7 +20,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
         InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
         ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"
 })
-public class BookGenreDaoTest {
+public class GenreDaoTest {
 
     @Autowired
     private GenreDao genreDao;
