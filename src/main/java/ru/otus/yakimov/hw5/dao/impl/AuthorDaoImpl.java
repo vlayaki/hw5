@@ -36,4 +36,20 @@ public class AuthorDaoImpl implements AuthorDao {
             return new Author(id, lastName, firstName);
         });
     }
+
+    @Override
+    public Map<Long, Author> getIdToAuthorMap() {
+        final String sql = "select id, first_name, last_name from tauthor";
+        return namedParameterJdbcOperations.query(sql, (rs) -> {
+            Map<Long, Author> res = new HashMap<>();
+            while (rs.next()) {
+                Long id = rs.getLong("id");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                Author author = new Author(id, lastName, firstName);
+                res.put(id, author);
+            }
+            return res;
+        });
+    }
 }

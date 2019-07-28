@@ -6,6 +6,8 @@ import ru.otus.yakimov.hw5.dao.AuthorDao;
 import ru.otus.yakimov.hw5.domain.Author;
 import ru.otus.yakimov.hw5.service.AuthorService;
 
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
@@ -20,5 +22,10 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Author findById(long id) {
         return authorDao.findById(id);
+    }
+
+    @Override
+    public Map<Long, Author> getIdToAuthorMap() {
+        return authorDao.getIdToAuthorMap();
     }
 }

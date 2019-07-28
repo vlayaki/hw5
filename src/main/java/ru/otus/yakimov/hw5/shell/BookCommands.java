@@ -27,6 +27,11 @@ public class BookCommands {
         log.info(book.toString());
     }
 
+    @ShellMethod(value = "Prints all books in JSON format", key = "show_books")
+    public void show_books() {
+        bookService.findBooks().stream().forEach(System.out::println);
+    }
+
     @ShellMethod(value = "Adds new book to database", key = "add_book")
     public void add_book(String isbn, String title, String desc) {
         Set<Author> authors = userService.getSetOfIdsFromUser("Input author id or press Enter to continue.")

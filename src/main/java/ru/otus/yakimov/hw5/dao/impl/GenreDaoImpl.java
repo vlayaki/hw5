@@ -35,4 +35,20 @@ public class GenreDaoImpl implements GenreDao {
             return new Genre(id, name, description);
         });
     }
+
+    @Override
+    public Map<Long, Genre> getGenreIdToGenreMap() {
+        final String sql = "select id, name, description from tgenre";
+        return namedParameterJdbcOperations.query(sql, rs -> {
+            Map<Long, Genre> res = new HashMap<>();
+            while (rs.next()) {
+                Long id = rs.getLong("id");
+                String name = rs.getString("name");
+                String description = rs.getString("description");
+                Genre genre = new Genre(id, name, description);
+                res.put(id, genre);
+            }
+            return res;
+        });
+    }
 }

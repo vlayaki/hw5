@@ -38,14 +38,52 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public List<Book> findAll() {
-        final String select =
-                "select b.isbn, b.title, b.description book_desc, a.id author_id, a.first_name, a.last_name, g.id genre_id, g.name, g.description genre_desc from tbook b " +
-                        "left join tbook_author ba on b.isbn = ba.book_id " +
-                        "left join tauthor a on a.id = ba.author_id " +
-                        "left join tbook_genre bg on b.isbn = bg.book_id " +
-                        "left join tgenre g on g.id = bg.genre_id ";
-        return namedParameterJdbcOperations.query(select, new BookExtractor());
+    public List<Book> findBooks() {
+        final String sql = "select isbn, title, description from tbook";
+        return namedParameterJdbcOperations.query(sql, (rs, i) -> {
+            String isbn = rs.getString("isbn");
+            String title = rs.getString("title");
+            String description = rs.getString("description");
+            return new Book(isbn, title, description);
+        });
+    }
+
+    @Override
+    public Map<String, Set<Long>> getBookIdToAuthorIdsMap() {
+        final String sql = "select book_id, author_id from tbook_author";
+        return namedParameterJdbcOperations.query(sql, rs -> {
+            Map<String, Set<Long>> res = new HashMap<>();
+            while (rs.next()) {
+                String bookId = rs.getString("book_id");
+                Long authorId = rs.getLong("author_id");
+                Set<Long> authors = res.get(bookId);
+                if (authors == null) {
+                    authors = new HashSet<>();
+                    res.put(bookId, authors);
+                }
+                authors.add(authorId);
+            }
+            return res;
+        });
+    }
+
+    @Override
+    public Map<String, Set<Long>> getBookIdToGenreIdsMap() {
+        final String sql = "select book_id, genre_id from tbook_genre";
+        return namedParameterJdbcOperations.query(sql, rs -> {
+            Map<String, Set<Long>> res = new HashMap<>();
+            while (rs.next()) {
+                String bookId = rs.getString("book_id");
+                Long authorId = rs.getLong("genre_id");
+                Set<Long> genres = res.get(bookId);
+                if (genres == null) {
+                    genres = new HashSet<>();
+                    res.put(bookId, genres);
+                }
+                genres.add(authorId);
+            }
+            return res;
+        });
     }
 
     @Override

@@ -6,6 +6,8 @@ import ru.otus.yakimov.hw5.dao.GenreDao;
 import ru.otus.yakimov.hw5.domain.Genre;
 import ru.otus.yakimov.hw5.service.GenreService;
 
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class GenreServiceImpl implements GenreService {
@@ -20,5 +22,10 @@ public class GenreServiceImpl implements GenreService {
     @Override
     public Genre findById(long id) {
         return genreDao.findById(id);
+    }
+
+    @Override
+    public Map<Long, Genre> getGenreIdToGenreMap() {
+        return genreDao.getGenreIdToGenreMap();
     }
 }

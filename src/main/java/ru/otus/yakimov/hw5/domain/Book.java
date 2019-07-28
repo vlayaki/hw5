@@ -1,11 +1,14 @@
 package ru.otus.yakimov.hw5.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Data
+@AllArgsConstructor
 public class Book {
     private final String isbn;
     private final String title;
@@ -13,6 +16,13 @@ public class Book {
     private final Set<Author> authors;
     private final Set<Genre> genres;
 
+    public Book(String isbn, String title, String description) {
+        this.isbn = isbn;
+        this.title = title;
+        this.description = description;
+        authors = new HashSet<>();
+        genres = new HashSet<>();
+    }
 
     @Override
     public String toString() {
