@@ -12,12 +12,13 @@ import ru.otus.yakimov.hw5.domain.Author;
 import ru.otus.yakimov.hw5.domain.Book;
 import ru.otus.yakimov.hw5.domain.Genre;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -32,19 +33,23 @@ public class BookServiceTest {
 
     @Test
     @Rollback
-    public void shouldPersistBookToDb(){
-        final String isbn = "1";
-        final String title = "test book";
-        final String description = "test book desc";
-        Set<Author> authors = new HashSet<>();
-        authors.add(new Author(3, "Sierra", "Kathy"));
-        authors.add(new Author(4, "Bates", "Bert"));
-        Set<Genre> genres = new HashSet<>();
-        genres.add(new Genre(1, "educational", "desc"));
-        Book testBook = new Book(isbn, title, description, authors, genres);
-        bookService.add(testBook);
-        Book bookFromDb = bookService.findById(testBook.getIsbn());
-        assertThat(bookFromDb, is(notNullValue()));
-        assertThat(bookFromDb, is(equalTo(testBook)));
+    public void shouldReadAllBooksFromDb() {
+        String isbn1 = "0596009208";
+        String title1 = "Head First Java";
+        String desc1 = "Learning a complex new language is no easy task especially when it s an object-oriented computer programming...";
+        Set<Author> authors1 = new HashSet<>(Arrays.asList(new Author(3,"Sierra", "Kathy"), new Author(4, "Bates", "Bert")));
+        Set<Genre> genres1 = new HashSet<>(Arrays.asList(new Genre(1, "educational", "desc")));
+        Book book1 = new Book(isbn1, title1, desc1, authors1, genres1);
+
+        String isbn2 = "0321127420";
+        String title2 = "Patterns of Enterprise Application Architecture";
+        String desc2 = "The practice of enterprise application development has benefited from the emergence of many...";
+        Set<Author> authors2 = new HashSet<>(Arrays.asList(new Author(2,"Fowler", "Martin")));
+        Set<Genre> genres2 = new HashSet<>(Arrays.asList(new Genre(1, "educational", "desc")));
+        Book book2 = new Book(isbn2, title2, desc2, authors2, genres2);
+
+        List<Book> actual = bookService.findBooks();
+        assertThat(actual, hasSize(2));
+        assertThat(actual, containsInAnyOrder(book1, book2));
     }
 }

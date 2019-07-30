@@ -3,11 +3,11 @@ package ru.otus.yakimov.hw5.dao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.shell.jline.InteractiveShellApplicationRunner;
-import org.springframework.shell.jline.ScriptShellApplicationRunner;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+import ru.otus.yakimov.hw5.dao.impl.GenreDaoImpl;
 import ru.otus.yakimov.hw5.domain.Genre;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -16,17 +16,15 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(properties = {
-        InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
-        ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"
-})
+@JdbcTest
+@Import(GenreDaoImpl.class)
 public class GenreDaoTest {
 
     @Autowired
     private GenreDao genreDao;
 
     @Test
-    public void shouldReadGenreFromDb(){
+    public void shouldReadGenreFromDb() {
         long id = 1;
         String name = "educational";
         String description = "desc";
@@ -38,7 +36,7 @@ public class GenreDaoTest {
 
     @Test
     @Rollback
-    public void shouldPersistGenreToDb(){
+    public void shouldPersistGenreToDb() {
         Genre expected = new Genre(2, "testGenre", "desc");
         genreDao.add(expected);
         Genre actual = genreDao.findById(expected.getId());
